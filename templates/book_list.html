@@ -1,0 +1,12 @@
+<h1>Список книг</h1>
+<ol>
+  {% for book in books %}
+  <li>
+    <h2>{{ book.title }}</h2>
+    <p>Автор: {{ book.author }}</p>
+    <img src="{{ book.cover.url }}" alt="" width="200" height="300">
+    <p>{{ book.publish_date }}</p>
+    <a href="/books/{{ book.id }}/">Подробнее</a>
+  </li>
+  {% endfor %}
+</ol>
