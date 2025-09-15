@@ -8,3 +8,15 @@
 <p><strong>Цена:</strong> {{ book.price }} сом</p>
 <p><strong>Опубликовано:</strong> {{ book.publish_date }}</p>
 <p><strong>Добавлено:</strong> {{ book.created_at }}</p>
+
+<h2>Отзывы</h2>
+<ol>
+  {% for review in book.reviews.all %}
+  <li>
+    <h3>{{ review.stars }}</h3>
+    <p>{{ review.text }}</p>
+  </li>
+  {% empty %}
+  <p>Отзывов пока нет.</p>
+  {% endfor %}
+</ol>

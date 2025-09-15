@@ -1,0 +1,12 @@
+<h1>Записи на тур</h1>
+<ol>
+  {% for tour in tours %}
+  <li>
+    <p><strong>Участник:</strong> {{ tour.person.name }} ({{ tour.person.email }})</p>
+    <p><strong>Тур:</strong> {{ tour.title }}</p>
+    <p><strong>Дата:</strong> {{ tour.date }}</p>
+  </li>
+  {% empty %}
+  <p>Записей пока нет.</p>
+  {% endfor %}
+</ol>

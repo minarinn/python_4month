@@ -27,3 +27,22 @@ class Book(models.Model):
         verbose_name = 'Книга'
         verbose_name_plural = 'Книги'
 
+
+class Review(models.Model):
+    STARS = (
+        ('⭐', '⭐'),
+        ('⭐⭐', '⭐⭐'),
+        ('⭐⭐⭐', '⭐⭐⭐'),
+        ('⭐⭐⭐⭐', '⭐⭐⭐⭐'),
+        ('⭐⭐⭐⭐⭐', '⭐⭐⭐⭐⭐'),
+    )
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='reviews', verbose_name='выберите книгу')
+    text = models.TextField(verbose_name='оставьте отзыв')
+    stars = models.CharField(max_length=100, choices=STARS, verbose_name='поставьте оценку о книге', default='⭐⭐⭐⭐')
+
+    def __str__(self):
+        return f'{self.book} - {self.stars}'
+
+    class Meta:
+        verbose_name = 'отзыв'
+        verbose_name_plural = 'отзывы'
