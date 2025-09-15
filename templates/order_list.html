@@ -1,0 +1,17 @@
+ <h1>Заказы</h1>
+<a href="{% url 'create_order' %}">Добавить заказ</a>
+<ol>
+  {% for order in orders %}
+  <li>
+    <h2>{{ order.name }} - {{ order.book.title }}</h2>
+    <p>Телефон: {{ order.phone_number }}</p>
+    <p>Номер карты: {{ order.card_number }}</p>
+    <p>Статус: {{ order.status }}</p>
+    <p>Дата создания: {{ order.created_at }}</p>
+    <a href="/update_order/{{ order.id }}/">Изменить заказ</a>
+    <a href="/delete_order/{{ order.id }}/">Удалить заказ</a>
+  </li>
+  {% empty %}
+    <p>Заказов пока нет.</p>
+  {% endfor %}
+</ol>

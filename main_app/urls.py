@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from books.views import book_ru, book_en, book_usa, book_list, book_detail
@@ -30,6 +30,7 @@ urlpatterns = [
     path('books/', book_list, name='book_list'),
     path('books/<int:id>/', book_detail, name='book_detail'),
     path('tours/', tour_list, name='tour_list'),
+    path('basket/', include('basket.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
