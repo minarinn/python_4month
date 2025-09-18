@@ -31,6 +31,8 @@ urlpatterns = [
     path('books/<int:id>/', book_detail, name='book_detail'),
     path('tours/', tour_list, name='tour_list'),
     path('basket/', include('basket.urls')),
+    path('recruit/', include('recruit.urls', namespace='recruit')),
+    path('captcha/', include('captcha.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

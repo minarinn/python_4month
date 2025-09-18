@@ -1,0 +1,29 @@
+<h1>Список кандидатов</h1>
+<ol>
+  {% for u in user_list %}
+  <li>
+    <h2>{{ u.username }}</h2>
+    <p>Имя: {{ u.first_name }}</p>
+    <p>Фамилия: {{ u.last_name }}</p>
+    <p>Email: {{ u.email }}</p>
+    <p>Телефон: {{ u.phone_number }}</p>
+    <p>Возраст: {{ u.age }}</p>
+    <p>Пол: {{ u.gender }}</p>
+    <p>Образование: {{ u.education_level }}</p>
+    <p>Опыт работы: {{ u.experience_years }} лет</p>
+    <p>Желаемая должность: {{ u.desired_position }}</p>
+    <p>Навыки: {{ u.skills }}</p>
+    <p>Адрес: {{ u.address }}</p>
+    {% if u.resume %}
+      <p>Резюме: <a href="{{ u.resume.url }}">Скачать</a></p>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ol>
+
+<form action="{% url 'recruit:logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Выйти из аккаунта</button>
+</form>
+
+<p><a href="{% url 'recruit:register' %}">Регистрация нового кандидата</a></p>
