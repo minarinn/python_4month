@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import Clothes, Tag
 
-# Register your models here.
+admin.site.register(Clothes)
+admin.site.register(Tag)
