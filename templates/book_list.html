@@ -1,12 +1,34 @@
 <h1>Список книг</h1>
+
+<form action="{% url 'search_books' %}" method="GET">
+    <input type="search" name="s" placeholder="Напишите название книги">
+    <button type="submit">Поиск</button>
+</form>
+
 <ol>
-  {% for book in books %}
+  {% for b in books %}
   <li>
-    <h2>{{ book.title }}</h2>
-    <p>Автор: {{ book.author }}</p>
-    <img src="{{ book.cover.url }}" alt="" width="200" height="300">
-    <p>{{ book.publish_date }}</p>
-    <a href="/books/{{ book.id }}/">Подробнее</a>
+    <h2>{{ b.title }}</h2>
+    <p>Автор: {{ b.author }}</p>
+    <img src="{{ b.cover.url }}" width="200">
+    <p>{{ b.publish_date }}</p>
+    <a href="/books/{{ b.id }}/">Подробнее</a>
   </li>
   {% endfor %}
 </ol>
+
+<div style="display: flex; justify-content: center; margin: 20px 0;">
+  <div>
+    {% if books.has_previous %}
+      <a href="?page=1">« Первая</a>
+      <a href="?page={{ books.previous_page_number }}">‹ Предыдущая</a>
+    {% endif %}
+
+    <span>Страница {{ books.number }} из {{ books.paginator.num_pages }}</span>
+
+    {% if books.has_next %}
+      <a href="?page={{ books.next_page_number }}">Следующая ›</a>
+      <a href="?page={{ books.paginator.num_pages }}">Последняя »</a>
+    {% endif %}
+  </div>
+</div>

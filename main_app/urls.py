@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from books.views import book_ru, book_en, book_usa, book_list, book_detail
+from books.views import book_ru, book_en, book_usa, book_list, book_detail, search_books
 from tours.views import tour_list
 
 
@@ -29,10 +29,12 @@ urlpatterns = [
     path('book_usa/', book_usa, name='book_usa'),
     path('books/', book_list, name='book_list'),
     path('books/<int:id>/', book_detail, name='book_detail'),
+    path('search_books/', search_books, name='search_books'),
     path('tours/', tour_list, name='tour_list'),
     path('basket/', include('basket.urls')),
     path('recruit/', include('recruit.urls', namespace='recruit')),
     path('captcha/', include('captcha.urls')),
+    path('', include('clothes.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
