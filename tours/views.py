@@ -1,9 +1,8 @@
-from django.shortcuts import render
-from tours.models import Person, Tour
+from django.views import generic
+from tours.models import Tour
 
-def tour_list(request):
-    tours = Tour.objects.all()
-    context = {
-        'tours': tours
-    }
-    return render(request, 'tour_list.html', context=context)
+class TourListView(generic.ListView):
+    model = Tour
+    template_name = 'tour_list.html'
+    context_object_name = 'tours'
+    ordering = ['-id']

@@ -1,40 +1,43 @@
+from django.views import View
+from django.views.generic import ListView
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout
-from django.contrib.auth.decorators import login_required
-from .forms import CustomRegisterForm, LoginWithCaptchaForm
+from django.contrib.auth import authenticate, login, logout
 from .models import CustomUser
+from .forms import CustomRegisterForm, LoginWithCaptchaForm
 
+class RegisterView(View):
+    def get(self, request):
+        form = CustomRegisterForm()
+        return render(request, 'recruit/register.html', {'form': form})
 
-def register_view(request):
-    if request.method == 'POST':
+    def post(self, request):
         form = CustomRegisterForm(request.POST, request.FILES)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('recruit:user_list')
-    else:
-        form = CustomRegisterForm()
-    return render(request, 'recruit/register.html', {'form': form})
+            form.save()
+            return redirect('recruit:login')
+        return render(request, 'recruit/register.html', {'form': form})
 
 
-def login_view(request):
-    if request.method == 'POST':
+class LoginView(View):
+    def get(self, request):
+        form = LoginWithCaptchaForm()
+        return render(request, 'recruit/login.html', {'form': form})
+
+    def post(self, request):
         form = LoginWithCaptchaForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
             return redirect('recruit:user_list')
-    else:
-        form = LoginWithCaptchaForm()
-    return render(request, 'recruit/login.html', {'form': form})
+        return render(request, 'recruit/login.html', {'form': form, 'error': 'Неверные данные'})
 
+class UserListView(ListView):
+    model = CustomUser
+    template_name = 'recruit/user_list.html'
+    context_object_name = 'users'
+    ordering = ['-id']
 
-@login_required
-def user_list_view(request):
-    users = CustomUser.objects.all()
-    return render(request, 'recruit/user_list.html', {'user_list': users})
-
-
-def logout_view(request):
-    logout(request)
-    return redirect('recruit:login')
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect('login')

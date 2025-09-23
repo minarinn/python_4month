@@ -1,33 +1,29 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 from .models import Order
 from .forms import OrderForm
 
-def create_order_view(request):
-    if request.method == 'POST':
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('order_list')
-    else:
-        form = OrderForm()
-    return render(request, 'order_form.html', context={'form': form, 'order': None})
+class OrderListView(ListView):
+    model = Order
+    template_name = 'order_list.html'
+    context_object_name = 'orders'
+    ordering = ['-id']
 
-def read_order_view(request):
-    orders = Order.objects.all().order_by('-id')
-    return render(request, 'order_list.html', context={'orders': orders})
+class OrderCreateView(CreateView):
+    model = Order
+    form_class = OrderForm
+    template_name = 'order_form.html'
+    success_url = reverse_lazy('order_list')
 
-def update_order_view(request, id):
-    order = get_object_or_404(Order, id=id)
-    if request.method == 'POST':
-        form = OrderForm(request.POST, instance=order)
-        if form.is_valid():
-            form.save()
-            return redirect('order_list')
-    else:
-        form = OrderForm(instance=order)
-    return render(request, 'order_form.html', context={'form': form, 'order': order})
+class OrderUpdateView(UpdateView):
+    model = Order
+    form_class = OrderForm
+    template_name = 'order_form.html'
+    success_url = reverse_lazy('order_list')
+    pk_url_kwarg = 'id'
 
-def delete_order_view(request, id):
-    order = get_object_or_404(Order, id=id)
-    order.delete()
-    return redirect('order_list')
+class OrderDeleteView(DeleteView):
+    model = Order
+    template_name = 'order_confirm_delete.html'
+    success_url = reverse_lazy('order_list')
+    pk_url_kwarg = 'id'

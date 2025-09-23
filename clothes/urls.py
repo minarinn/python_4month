@@ -1,9 +1,12 @@
 from django.urls import path
-from . import views
+from .views import (
+    AllClothesListView, KidsClothesListView,
+    TeensClothesListView, AdultsClothesListView
+)
 
 urlpatterns = [
-    path('all_clothes/', views.all_clothes, name='all_clothes'),
-    path('kids_clothes/', views.kids_clothes, name='kids_clothes'),
-    path('teens_clothes/', views.teens_clothes, name='teens_clothes'),
-    path('adults_clothes/', views.adults_clothes, name='adults_clothes'),
+    path('all_clothes/', AllClothesListView.as_view(), name='all_clothes'),
+    path('kids_clothes/', KidsClothesListView.as_view(), name='kids_clothes'),
+    path('teens_clothes/', TeensClothesListView.as_view(), name='teens_clothes'),
+    path('adults_clothes/', AdultsClothesListView.as_view(), name='adults_clothes'),
 ]

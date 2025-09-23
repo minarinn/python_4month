@@ -18,19 +18,22 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from books.views import book_ru, book_en, book_usa, book_list, book_detail, search_books
-from tours.views import tour_list
+from books.views import (
+    BookListView, BookDetailView, BookRuView,
+    BookEnView, BookUsaView, SearchBooksView
+)
+from tours.views import TourListView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('book_ru/', book_ru, name='book_ru'),
-    path('book_en/', book_en, name='book_en'),
-    path('book_usa/', book_usa, name='book_usa'),
-    path('books/', book_list, name='book_list'),
-    path('books/<int:id>/', book_detail, name='book_detail'),
-    path('search_books/', search_books, name='search_books'),
-    path('tours/', tour_list, name='tour_list'),
+    path('book_ru/', BookRuView.as_view(), name='book_ru'),
+    path('book_en/', BookEnView.as_view(), name='book_en'),
+    path('book_usa/', BookUsaView.as_view(), name='book_usa'),
+    path('books/', BookListView.as_view(), name='book_list'),
+    path('books/<int:id>/', BookDetailView.as_view(), name='book_detail'),
+    path('search_books/', SearchBooksView.as_view(), name='search_books'),
+    path('tours/', TourListView.as_view(), name='tour_list'),
     path('basket/', include('basket.urls')),
     path('recruit/', include('recruit.urls', namespace='recruit')),
     path('captcha/', include('captcha.urls')),
