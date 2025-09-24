@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'recruit',
     'captcha',
     'clothes',
+    'cineboard',
 ]
 
 MIDDLEWARE = [

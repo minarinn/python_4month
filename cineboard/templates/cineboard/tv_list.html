@@ -1,0 +1,67 @@
+<h1>Фильмы</h1>
+
+{% if user.is_authenticated %}
+  <a href="{% url 'cineboard:create_film' %}">Добавить фильм</a>
+  <a href="{% url 'cineboard:logout_cine' %}">Выйти</a>
+{% else %}
+  <a href="{% url 'cineboard:login_cine' %}">Войти</a>
+  <a href="{% url 'cineboard:register_cine' %}">Регистрация</a>
+{% endif %}
+
+<!-- Поиск и фильтрация -->
+<form method="get">
+    <input type="text" name="s" placeholder="Поиск по названию" value="{{ s }}">
+    <select name="genre">
+        <option value="">Все жанры</option>
+        {% for g in all_genres %}
+          <option value="{{ g }}" {% if genre == g %}selected{% endif %}>{{ g }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="tag">
+        <option value="">Все теги</option>
+        {% for t in all_tags %}
+          <option value="{{ t.name }}" {% if tag == t.name %}selected{% endif %}>{{ t.name }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Применить</button>
+</form>
+
+<ol>
+  {% for i in tv_lst %}
+  <li>
+    <h2>{{ i.title }}</h2>
+    <p>Добавлен: {{ i.created_at }}</p>
+    <p>{{ i.description }}</p>
+    <p>Жанр: {{ i.genre }}</p>
+    <p>Дата выхода: {{ i.release_date }}</p>
+
+    Теги:
+    {% for tag in i.tags.all %}
+      {{ tag.name }}{% if not forloop.last %}, {% endif %}
+    {% empty %}
+      без тегов
+    {% endfor %}
+
+    <br>
+
+    <h3>Рейтинги</h3>
+    <ol>
+      {% for comment in i.rating.all %}
+      <li>
+        <strong>{{ comment.stars }}★</strong><br>
+        <p>{{ comment.text }}</p>
+      </li>
+      {% empty %}
+      <li>Рейтингов пока нет</li>
+      {% endfor %}
+    </ol>
+
+    {% if user.is_authenticated %}
+      <a href="{% url 'cineboard:update' i.id %}">Изменить фильм</a>
+      <a href="{% url 'cineboard:delete' i.id %}">Удалить фильм</a>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ol>

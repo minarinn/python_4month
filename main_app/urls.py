@@ -38,6 +38,7 @@ urlpatterns = [
     path('recruit/', include('recruit.urls', namespace='recruit')),
     path('captcha/', include('captcha.urls')),
     path('', include('clothes.urls')),
+    path('', include('cineboard.urls', namespace='cineboard')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
